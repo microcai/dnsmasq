@@ -35,6 +35,16 @@ static int check_listen_addrs(struct in_addr local, int if_index,
 
 static int make_fd(int port)
 {
+  int fd_base, listen_fds = sd_listen_fds(0);
+  // first check if systemd already did that for us
+  for( fd_base = 0 ; fd_base < listen_fds ; fd_base ++)
+  {
+      if (sd_is_socket_inet(fd_base + SD_LISTEN_FDS_START, PF_INET, SOCK_DGRAM,0, port))
+        {
+          return fd_base + SD_LISTEN_FDS_START;
+        }
+  }
+
   int fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
   struct sockaddr_in saddr;
   int oneopt = 1;

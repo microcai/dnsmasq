@@ -93,6 +93,7 @@ int main (int argc, char **argv)
 	daemon->lease_file = LEASEFILE;
     }
 #endif
+  if ( sd_listen_fds(0) < 0) {
   
   /* Close any file descriptors we inherited apart from std{in|out|err} 
      
@@ -108,6 +109,7 @@ int main (int argc, char **argv)
     else
       open("/dev/null", O_RDWR); 
 
+  }
 #ifndef HAVE_LINUX_NETWORK
 #  if !(defined(IP_RECVDSTADDR) && defined(IP_RECVIF) && defined(IP_SENDSRCADDR))
   if (!option_bool(OPT_NOWILD))
