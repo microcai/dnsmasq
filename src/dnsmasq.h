@@ -132,6 +132,8 @@ extern int capget(cap_user_header_t header, cap_user_data_t data);
 #include <priv.h>
 #endif
 
+#include "sd-daemon.h"
+
 /* daemon is function in the C library.... */
 #define daemon dnsmasq_daemon
 
